@@ -23,16 +23,7 @@ class OwnerResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make([
-                    Forms\Components\TextInput::make('name')
-                        ->required(),
-                    Forms\Components\TextInput::make('email')
-                        ->email()
-                        ->required(),
-                    Forms\Components\TextInput::make('phone')
-                        ->tel()
-                        ->required(),
-                ]),
+                Forms\Components\Section::make(static::getOwnerForm()),
             ]);
     }
 
@@ -78,6 +69,20 @@ class OwnerResource extends Resource
             'index' => Pages\ListOwners::route('/'),
             'create' => Pages\CreateOwner::route('/create'),
             'edit' => Pages\EditOwner::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getOwnerForm()
+    {
+        return [
+            Forms\Components\TextInput::make('name')
+                ->required(),
+            Forms\Components\TextInput::make('email')
+                ->email()
+                ->required(),
+            Forms\Components\TextInput::make('phone')
+                ->tel()
+                ->required(),
         ];
     }
 }
