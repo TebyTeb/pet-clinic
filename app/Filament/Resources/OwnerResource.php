@@ -25,12 +25,13 @@ class OwnerResource extends Resource
             ->schema([
                 Forms\Components\Section::make([
                     Forms\Components\TextInput::make('name')
-                        ->rules(['required']),
+                        ->required(),
                     Forms\Components\TextInput::make('email')
-                        ->rules(['required', 'email']),
+                        ->email()
+                        ->required(),
                     Forms\Components\TextInput::make('phone')
                         ->tel()
-                        ->rules(['required']),
+                        ->required(),
                 ]),
             ]);
     }
