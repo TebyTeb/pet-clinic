@@ -2,16 +2,16 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\OwnerResource\Pages;
-use App\Filament\Resources\OwnerResource\RelationManagers;
-use App\Models\Owner;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Owner;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\OwnerResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\OwnerResource\RelationManagers;
 
 class OwnerResource extends Resource
 {
@@ -23,7 +23,15 @@ class OwnerResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\Section::make([
+                    Forms\Components\TextInput::make('name')
+                        ->rules(['required']),
+                    Forms\Components\TextInput::make('email')
+                        ->rules(['required', 'email']),
+                    Forms\Components\TextInput::make('phone')
+                        ->tel()
+                        ->rules(['required', '']),
+                ]),
             ]);
     }
 
@@ -31,7 +39,14 @@ class OwnerResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('name')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('email')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('phone')
+                    ->searchable(),
             ])
             ->filters([
                 //
@@ -45,14 +60,14 @@ class OwnerResource extends Resource
                 ]),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -60,5 +75,5 @@ class OwnerResource extends Resource
             'create' => Pages\CreateOwner::route('/create'),
             'edit' => Pages\EditOwner::route('/{record}/edit'),
         ];
-    }    
+    }
 }
