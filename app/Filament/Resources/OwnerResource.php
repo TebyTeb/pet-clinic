@@ -30,7 +30,7 @@ class OwnerResource extends Resource
                         ->rules(['required', 'email']),
                     Forms\Components\TextInput::make('phone')
                         ->tel()
-                        ->rules(['required', '']),
+                        ->rules(['required']),
                 ]),
             ]);
     }
@@ -39,6 +39,9 @@ class OwnerResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('name')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('name')
                     ->sortable()
                     ->searchable(),
