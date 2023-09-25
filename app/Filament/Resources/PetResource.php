@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\PetResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\PetResource\RelationManagers;
+use Illuminate\Support\Facades\Storage;
 
 class PetResource extends Resource
 {
@@ -72,6 +73,11 @@ class PetResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->before(function (Pet $record) {
+                        // Deleting the image
+                        Storage::delete('public/'.$record->avatar);
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
