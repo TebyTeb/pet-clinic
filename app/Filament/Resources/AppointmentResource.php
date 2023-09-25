@@ -107,6 +107,7 @@ class AppointmentResource extends Resource
                         $record->status = AppointmentStatus::Canceled;
                         $record->save();
                     })
+                    ->visible(fn (Appointment $record) => $record->status !== AppointmentStatus::Canceled)
                     ->color('danger')
                     ->icon('heroicon-o-x-mark'),
 
