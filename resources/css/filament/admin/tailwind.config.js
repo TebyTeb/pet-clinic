@@ -6,6 +6,7 @@ export default {
     presets: [preset],
     content: [
         './app/Filament/**/*.php',
+        './app/Providers/Filament/**/*.php',
         './resources/**/*.blade.php',
         './vendor/filament/**/*.blade.php',
     ],
