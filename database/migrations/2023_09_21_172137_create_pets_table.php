@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('owner_id')
                 ->nullable()
-                ->constrained('owners');
+                ->constrained('users');
             $table->string('name');
             $table->date('date_of_birth');
             $table->string('type');
