@@ -44,7 +44,7 @@ class PetResource extends Resource
                         ->native(false)
                         ->searchable()
                         ->preload()
-                        // ->createOptionForm(OwnerResource::getOwnerForm())
+                        ->createOptionForm(UserResource::getUserForm())
                 ])
             ]);
     }
