@@ -16,8 +16,6 @@ return new class extends Migration
             $table->foreignId('pet_id')
                 ->constrained('pets')
                 ->cascadeOnDelete();
-            $table->foreignId('slot_id')
-                ->constrained('slots');
             $table->string('description');
             $table->timestamps();
         });

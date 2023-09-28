@@ -21,6 +21,13 @@ return new class extends Migration
             $table->string('status');
             $table->timestamps();
         });
+
+        Schema::table('appointments', function (Blueprint $table) {
+            $table->after('pet_id', function (Blueprint $table) {
+                $table->foreignId('slot_id')
+                    ->constrained('slots');
+            });
+        });
     }
 
     /**
@@ -29,5 +36,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('slots');
+        Schema::dropColumns('appointments', 'slot_id');
     }
 };

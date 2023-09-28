@@ -17,6 +17,13 @@ return new class extends Migration
             $table->string('description');
             $table->timestamps();
         });
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->after('id', function (Blueprint $table) {
+                $table->foreignId('role_id')
+                    ->constrained('roles');
+            });
+        });
     }
 
     /**
@@ -25,5 +32,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('roles');
+        schema::dropColumns('users', 'role_id');
     }
 };

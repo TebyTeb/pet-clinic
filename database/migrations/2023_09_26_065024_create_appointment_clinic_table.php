@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('appointment_clinic', function (Blueprint $table) {
+        Schema::create('appointment_clinic', function (Blueprint $table) {
             $table->foreignIdFor(Appointment::class);
             $table->foreignIdFor(Clinic::class);
         });
@@ -24,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('appointment_clinic', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('appointment_clinic');
     }
 };
