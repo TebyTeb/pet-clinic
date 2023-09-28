@@ -19,7 +19,7 @@ class PetResource extends Resource
 {
     protected static ?string $model = Pet::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-heart';
 
     public static function form(Form $form): Form
     {
@@ -44,7 +44,7 @@ class PetResource extends Resource
                         ->native(false)
                         ->searchable()
                         ->preload()
-                        ->createOptionForm(OwnerResource::getOwnerForm())
+                        // ->createOptionForm(OwnerResource::getOwnerForm())
                 ])
             ]);
     }
