@@ -58,15 +58,15 @@ class User extends Authenticatable implements FilamentUser, HasTenants
 
     public function canAccessTenant(Model $tenant): bool
     {
-        return $this->clinics->contains($tenant);
+        return $this->clinic->contains($tenant);
     }
 
-    public function getTenants(Panel $panel): array
+    public function getTenants(Panel $panel): \Illuminate\Support\Collection|array
     {
-        return $this->clinics;
+        return $this->clinic;
     }
 
-    public function clinics(): BelongsToMany
+    public function clinic(): BelongsToMany
     {
         return $this->belongsToMany(Clinic::class);
     }
