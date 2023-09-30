@@ -16,7 +16,7 @@ class Appointment extends Model
         'status' => AppointmentStatus::class
     ];
 
-    public function pet():BelongsTo
+    public function pet(): BelongsTo
     {
         return $this->belongsTo(Pet::class);
     }

@@ -9,10 +9,7 @@ use App\Enums\PetType;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
-use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\PetResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\PetResource\RelationManagers;
 use Illuminate\Support\Facades\Storage;
 
 class PetResource extends Resource
