@@ -45,6 +45,9 @@ class UserResource extends Resource
                     ->badge()
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('clinics.name')
+                    ->badge()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
@@ -80,10 +83,11 @@ class UserResource extends Resource
         ];
     }
 
-    public static function shouldRegisterNavigation(): bool
-    {
-        return auth()->user()->role->name === 'admin';
-    }
+    //? El uso actual de este método está cubierto por la policy UserPolicy
+    // public static function shouldRegisterNavigation(): bool
+    // {
+    //     return auth()->user()->role->name === 'admin';
+    // }
 
     public static function getUserForm()
     {

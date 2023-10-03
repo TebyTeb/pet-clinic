@@ -2,6 +2,8 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\Tenancy\EditClinicProfile;
+use App\Filament\Pages\Tenancy\RegisterClinic;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
@@ -29,6 +31,8 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->tenant(Clinic::class)
+            ->tenantProfile(EditClinicProfile::class)
+            ->tenantRegistration(RegisterClinic::class)
             ->login()
             ->registration()
             ->passwordReset()
