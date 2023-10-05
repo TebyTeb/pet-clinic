@@ -2,16 +2,17 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ScheduleResource\Pages;
-use App\Filament\Resources\ScheduleResource\RelationManagers;
-use App\Models\Schedule;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Schedule;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
+use Filament\Facades\Filament;
+use Filament\Resources\Resource;
+use App\Filament\Resources\ScheduleResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\ScheduleResource\RelationManagers;
+use App\Models\Role;
 
 class ScheduleResource extends Resource
 {
@@ -21,6 +22,7 @@ class ScheduleResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $doctorRole = Role::whereName('doctor')->first();
         return $form
             ->schema([
                 Forms\Components\Section::make([
@@ -29,8 +31,25 @@ class ScheduleResource extends Resource
                         ->required(),
                     Forms\Components\Select::make('owner_id')
                         ->native(false)
-                        ->relationship('owner', 'name')
+                        // ->relationship('owner', 'name', fn(Builder $query) => $query->where('role_id', 2) ) //? This gets ALL users, not tenant users
+                        ->options(
+                            Filament::getTenant()
+                                ->users()
+                                ->whereBelongsTo($doctorRole)
+                                ->get()
+                                ->pluck('name', 'id')
+                        )
                         ->required(),
+                    Forms\Components\Repeater::make('slots')
+                        ->relationship()
+                        ->schema([
+                            Forms\Components\TimePicker::make('start')
+                                ->seconds(false)
+                                ->required(),
+                            Forms\Components\TimePicker::make('end')
+                                ->seconds(false)
+                                ->required(),
+                        ])
                 ])
             ]);
     }
@@ -38,13 +57,19 @@ class ScheduleResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->groups([
+                Tables\Grouping\Group::make('date')
+                    ->collapsible()
+            ])
+            ->defaultGroup('date')
             ->columns([
                 Tables\Columns\TextColumn::make('owner.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('date')
                     ->date()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
