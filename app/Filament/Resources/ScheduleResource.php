@@ -62,10 +62,18 @@ class ScheduleResource extends Resource
                     ->collapsible()
             ])
             ->defaultGroup('date')
+            ->groupsInDropdownOnDesktop()
             ->columns([
                 Tables\Columns\TextColumn::make('owner.name')
                     ->numeric()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('slots')
+                    //? To format the date in the state use Carbon::parse or cast the record to datetime in model
+                    ->formatStateUsing(fn ($state) =>
+                        $state->start->format('h:i') .
+                        ' - ' .
+                        $state->end->format('h:i'))
+                    ->badge(),
                 Tables\Columns\TextColumn::make('date')
                     ->date()
                     ->sortable()
@@ -84,6 +92,8 @@ class ScheduleResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->before(fn (Schedule $record) => $record->slots()->delete()),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

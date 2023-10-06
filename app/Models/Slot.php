@@ -11,6 +11,12 @@ class Slot extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        //? Convierte las fechas a instancias de Carbon, para poder usar metodos de Carbon directamente
+        'start' => 'datetime',
+        'end' => 'datetime',
+    ];
+
     public function appointment(): HasMany
     {
         return $this->hasMany(Appointment::class);
